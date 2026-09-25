@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>업무용 PC 단축키 검색 가이드</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #EEF2F8; --panel: #FFFFFF; --ink: #172033; --sub: #505B70; --line: #D5DCE7;
+  --cap: #FFFFFF; --cap-edge: #A9B4C6; --cap-ink: #172033; --accent: #2456C3; --warn: #C62828; --warn-bg: #FDECEC;
+  --chip: #E2E8F2;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111827; --panel: #1A2233; --ink: #E7ECF4; --sub: #A4AFC2; --line: #2E3A50;
+    --cap: #243049; --cap-edge: #0B111D; --cap-ink: #F1F5FB; --accent: #7EA4FF; --warn: #FF7A7A; --warn-bg: #3A1F24; --chip: #243049;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111827; --panel: #1A2233; --ink: #E7ECF4; --sub: #A4AFC2; --line: #2E3A50;
+  --cap: #243049; --cap-edge: #0B111D; --cap-ink: #F1F5FB; --accent: #7EA4FF; --warn: #FF7A7A; --warn-bg: #3A1F24; --chip: #243049;
+}
+:root { box-sizing: border-box; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 150px); }
+*, *::before, *::after { box-sizing: inherit; }
+body { margin: 0; background: var(--bg); color: var(--ink);
+  font-family: 'Noto Sans KR', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif; line-height: 1.55; }
+.wrap { max-width: 980px; margin: 0 auto; padding: 0 18px; }
+
+/* 상단: 검색 트레이 */
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); padding: 16px 0 10px; border-bottom: 1px solid var(--line); }
+.titlebar { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+h1 { font-size: 1.45rem; font-weight: 900; margin: 0; letter-spacing: -0.02em; }
+.meta { font-size: .82rem; color: var(--sub); }
+.tray { margin-top: 12px; display: flex; gap: 8px; background: var(--panel); border: 1px solid var(--line); border-bottom: 4px solid var(--cap-edge); border-radius: 12px; padding: 8px; }
+.tray input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; color: var(--ink); font: inherit; font-size: 1.08rem; padding: 8px 10px; }
+.tray input::placeholder { color: var(--sub); }
+.btn { font: inherit; font-size: .9rem; font-weight: 700; color: var(--ink); background: var(--chip); border: 1px solid var(--line); border-bottom: 3px solid var(--cap-edge); border-radius: 8px; padding: 6px 12px; cursor: pointer; white-space: nowrap; }
+.btn:active { transform: translateY(2px); border-bottom-width: 1px; }
+.btn[aria-pressed="true"] { background: var(--accent); color: #fff; border-color: var(--accent); }
+.btn:focus-visible, input:focus-visible, .chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.capture-hint { font-size: .85rem; color: var(--accent); margin-top: 6px; min-height: 1.3em; }
+
+.bar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 6px; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 9px; overflow: hidden; }
+.seg button { font: inherit; font-size: .88rem; font-weight: 700; border: 0; background: var(--panel); color: var(--sub); padding: 6px 12px; cursor: pointer; }
+.seg button + button { border-left: 1px solid var(--line); }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.chips { display: flex; gap: 6px; overflow-x: auto; padding: 8px 0 2px; scrollbar-width: thin; }
+.chip { flex: none; font: inherit; font-size: .85rem; font-weight: 700; border: 1px solid var(--line); border-radius: 999px; padding: 4px 11px; background: var(--panel); color: var(--ink); cursor: pointer; display: inline-flex; gap: 6px; align-items: center; }
+.chip i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.hwpbar { margin-top: 8px; font-size: .9rem; background: var(--warn-bg); border: 1.5px solid var(--warn); border-radius: 9px; padding: 6px 12px; display: flex; flex-wrap: wrap; gap: 4px 6px; align-items: center; word-break: keep-all; }
+.hwpbar b { color: var(--warn); }
+.hwpbar .keys { display: inline-flex; gap: 3px; align-items: center; }
+.hwpbar kbd { font-size: .82rem; padding: 0 6px; }
+.hwpbar[hidden] { display: none; }
+.count { font-size: .85rem; color: var(--sub); margin-left: auto; }
+
+/* 목록 */
+main { padding: 14px 0 60px; }
+.group { margin: 18px 0 8px; }
+.group h2 { font-size: 1rem; font-weight: 900; margin: 0 0 8px; display: flex; align-items: center; gap: 8px; }
+.group h2 .sw { width: 6px; height: 20px; border-radius: 3px; }
+.list { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.item { display: grid; grid-template-columns: minmax(170px, 250px) 1fr; gap: 6px 16px; padding: 12px 16px; border-top: 1px solid var(--line); align-items: start; }
+.item:first-child { border-top: 0; }
+.item.warn { background: var(--warn-bg); }
+.keys { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; }
+kbd { font-family: inherit; font-weight: 700; font-size: .95rem; background: var(--cap); color: var(--cap-ink); border: 1px solid var(--cap-edge); border-bottom-width: 3px; border-radius: 6px; padding: 1px 8px; white-space: nowrap; }
+.plus { color: var(--sub); font-size: .85rem; }
+.or { color: var(--sub); font-size: .8rem; margin: 0 4px; }
+.what { min-width: 0; }
+.what b { font-size: 1.02rem; }
+.what p { margin: 2px 0 0; color: var(--sub); font-size: .9rem; word-break: keep-all; }
+.tags { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 5px; }
+.tag { font-size: .74rem; padding: 1px 7px; border-radius: 5px; background: var(--chip); color: var(--sub); }
+.tag.core { background: var(--accent); color: #fff; }
+.tag.w { background: var(--warn); color: #fff; font-weight: 700; }
+mark { background: #FFE58A; color: #172033; border-radius: 2px; padding: 0 1px; }
+
+.diff { width: 100%; border-collapse: collapse; font-size: .92rem; }
+.diff td { padding: 9px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+.diff tr:first-child td { border-top: 0; }
+.diff td:first-child { width: 230px; }
+.tablewrap { overflow-x: auto; }
+
+.empty { text-align: center; padding: 40px 10px; color: var(--sub); }
+.empty b { color: var(--ink); }
+footer { font-size: .8rem; color: var(--sub); border-top: 1px solid var(--line); padding: 14px 0 30px; }
+
+@media (max-width: 640px) {
+  h1 { font-size: 1.2rem; }
+  .item { grid-template-columns: 1fr; padding: 11px 13px; }
+  .top { position: static; }
+  #capBtn, #printBtn, #linkBtn { display: none; }
+  .count { width: 100%; margin-left: 0; }
+  .diff td:first-child { width: auto; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+@media print {
+  @page { size: A4; margin: 12mm; }
+  body { background: #fff; color: #000; }
+  .top { position: static; border: 0; }
+  .tray, .bar, .chips, .capture-hint, #themeBtn, .hwpbar { display: none !important; }
+  .list { border-color: #bbb; }
+  .item { break-inside: avoid; padding: 6px 10px; }
+  .what p { color: #333; }
+  .group { break-inside: auto; }
+  .group h2 { break-after: avoid; }
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="titlebar">
+      <h1>업무용 PC 단축키 검색 가이드</h1>
+      <span class="meta">Windows · 브라우저 · Excel · 한글(HWP) · 기준일 2026-09-26 · <button class="btn" id="themeBtn" type="button" style="padding:2px 9px;font-size:.78rem" aria-label="밝은 화면과 어두운 화면 전환">☀/🌙 테마</button></span>
+    </div>
+    <div class="tray" role="search">
+      <input id="q" type="search" autocomplete="off" placeholder="단축키·기능·프로그램 검색 (예: 캡처, 파일명, 엑셀, Ctrl+Y)" aria-label="단축키 검색">
+      <button class="btn" id="capBtn" type="button" aria-pressed="false" title="키보드로 단축키를 직접 눌러 찾기">⌨ 눌러서 찾기</button>
+      <button class="btn" id="linkBtn" type="button" title="현재 검색 결과 주소 복사">링크 복사</button>
+      <button class="btn" id="printBtn" type="button">인쇄</button>
+    </div>
+    <div class="capture-hint" id="hint" aria-live="polite"></div>
+    <div class="bar">
+      <div class="seg" role="group" aria-label="보기">
+        <button type="button" data-mode="core" aria-pressed="true">핵심만</button>
+        <button type="button" data-mode="all" aria-pressed="false">전체</button>
+        <button type="button" data-mode="warn" aria-pressed="false">⚠ 주의</button>
+      </div>
+      <span class="count" id="count"></span>
+    </div>
+    <div class="chips" id="chips" role="group" aria-label="분류"></div>
+    <div class="hwpbar" id="hwpbar"><b>⚠ 한글(HWP)</b> <span class="keys"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Y</kbd></span> = <b>한 줄 지우기</b> (다시 실행 아님). 다시 실행은 <span class="keys"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>Z</kbd></span></div>
+  </div>
+</header>
+
+<main class="wrap" id="out" aria-live="polite"></main>
+
+<footer class="wrap">
+  <p>기준일 2026-09-26 | Windows·Chrome·Edge·Excel·한글(HWP) 기준</p>
+  <p>참고: Microsoft Windows·Excel 바로 가기 키, Google Chrome 단축키, 한컴 한글 도움말. 한글은 버전에 따라 일부 다를 수 있으니 사용 중인 버전에서 확인하세요.</p>
+  <p>같은 키라도 프로그램마다 기능이 다를 수 있습니다. 확실하지 않으면 ‘프로그램별 차이’를 먼저 확인하세요.</p>
+</footer>
+
+<script>
+const CATS = [["basic", "기본 편집", "#2456C3", "✎"], ["text", "글 수정·선택", "#2E8656", "¶"], ["doc", "문서 서식", "#4F7F2A", "B"], ["browser", "브라우저", "#D06A0B", "◎"], ["win", "Windows·창", "#0B8497", "▣"], ["capture", "화면 캡처", "#0F6C8C", "◰"], ["file", "파일 탐색기", "#6C45B5", "▤"], ["excel", "Excel", "#8A3FA8", "⊞"], ["hwp", "한글(HWP)", "#A15C00", "H"], ["vdesk", "가상 데스크톱", "#4A5A70", "⧉"], ["web", "웹페이지 제작", "#4A5A70", "</>"]];
+const ITEMS = [{"k": ["Ctrl + A"], "t": "모두 선택", "c": "basic", "d": "문서 전체 글, 폴더 안 파일 전체를 선택합니다.", "a": ["공통"], "lv": "core", "w": "", "f1": true, "f2": true, "b": true, "s": "모두 선택"}, {"k": ["Ctrl + C"], "t": "복사", "c": "basic", "d": "글·사진·파일을 복사합니다.", "a": ["공통"], "lv": "core", "w": "", "f1": true, "f2": true, "b": true, "s": "복사"}, {"k": ["Ctrl + X"], "t": "잘라내기", "c": "basic", "d": "글·파일을 옮길 때 씁니다. 붙여넣으면 원래 자리에서 사라집니다.", "a": ["공통"], "lv": "core", "w": "", "f1": true, "f2": true, "b": true, "s": "잘라내기"}, {"k": ["Ctrl + V"], "t": "붙여넣기", "c": "basic", "d": "복사하거나 잘라낸 내용을 넣습니다.", "a": ["공통"], "lv": "core", "w": "", "f1": true, "f2": true, "b": true, "s": "붙여넣기"}, {"k": ["Ctrl + Z"], "t": "실행 취소", "c": "basic", "d": "방금 한 작업을 되돌립니다. 여러 번 누르면 계속 뒤로 갑니다.", "a": ["공통"], "lv": "core", "w": "", "f1": true, "f2": true, "b": true, "s": "실행 취소"}, {"k": ["Ctrl + S"], "t": "저장", "c": "basic", "d": "작업 중 수시로 누르는 습관이 가장 좋은 사고 예방책입니다.", "a": ["공통"], "lv": "core", "w": "", "f1": true, "f2": true, "b": true, "s": "저장"}, {"k": ["Ctrl + F"], "t": "찾기", "c": "basic", "d": "긴 문서·웹페이지·PDF 공문에서 단어를 찾습니다.", "a": ["공통"], "lv": "core", "w": "", "f1": true, "f2": true, "b": true, "s": "찾기"}, {"k": ["Ctrl + P"], "t": "인쇄", "c": "basic", "d": "인쇄 창을 엽니다.", "a": ["공통"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "인쇄"}, {"k": ["Ctrl + H"], "t": "찾기·바꾸기", "c": "basic", "d": "같은 표현을 한꺼번에 바꿉니다. ‘모두 바꾸기’ 전에 바뀔 대상이 맞는지 먼저 확인하세요.", "a": ["공통"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "찾기·바꾸기"}, {"k": ["Ctrl + Y"], "t": "다시 실행", "c": "basic", "d": "실행 취소한 작업을 다시 적용하는 프로그램이 많습니다. 단, 한글(HWP)에서는 ‘한 줄 지우기’입니다.", "a": ["공통"], "lv": "work", "w": "HWP에서는 한 줄 지우기", "f1": false, "f2": false, "b": true, "s": "다시 실행"}, {"k": ["Ctrl + ← / →"], "t": "단어 단위 이동", "c": "text", "d": "커서를 한 단어씩 옮깁니다.", "a": ["공통"], "lv": "core", "w": "", "f1": false, "f2": false, "b": true, "s": "단어 단위 이동"}, {"k": ["Ctrl + ↑ / ↓"], "t": "문단 단위 이동", "c": "text", "d": "문단 앞뒤로 이동합니다. 프로그램마다 동작이 조금 다릅니다.", "a": ["공통"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "문단 단위 이동"}, {"k": ["Ctrl + Shift + ← / →"], "t": "단어 단위 선택", "c": "text", "d": "단어를 통째로 선택합니다. 이어서 Ctrl + C, Ctrl + X, Ctrl + B를 바로 쓰면 편합니다.", "a": ["공통"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "단어 단위 선택"}, {"k": ["Ctrl + Backspace"], "t": "앞 단어 삭제", "c": "text", "d": "커서 앞쪽 단어를 한 번에 지웁니다.", "a": ["공통"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "앞 단어 삭제"}, {"k": ["Ctrl + Delete"], "t": "뒤 단어 삭제", "c": "text", "d": "커서 뒤쪽 단어를 한 번에 지웁니다.", "a": ["공통"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "뒤 단어 삭제"}, {"k": ["Home"], "t": "줄 처음으로", "c": "text", "d": "현재 줄의 맨 앞으로 이동합니다.", "a": ["공통"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "줄 처음으로"}, {"k": ["End"], "t": "줄 끝으로", "c": "text", "d": "현재 줄의 맨 끝으로 이동합니다.", "a": ["공통"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "줄 끝으로"}, {"k": ["Shift + ← / →"], "t": "글자 단위 선택", "c": "text", "d": "한 글자씩 선택 범위를 늘립니다.", "a": ["공통"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "글자 단위 선택"}, {"k": ["Shift + Home"], "t": "줄 처음까지 선택", "c": "text", "d": "커서 위치부터 줄 맨 앞까지 선택합니다.", "a": ["공통"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "줄 처음까지 선택"}, {"k": ["Shift + End"], "t": "줄 끝까지 선택", "c": "text", "d": "커서 위치부터 줄 맨 끝까지 선택합니다.", "a": ["공통"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "줄 끝까지 선택"}, {"k": ["Ctrl + Home"], "t": "문서 처음으로", "c": "text", "d": "Word 등에서 문서 맨 앞으로 갑니다. 한글(HWP)에서는 ‘화면 처음’이고, 문서 처음은 Ctrl + PgUp입니다.", "a": ["Word", "메모장"], "lv": "work", "w": "HWP는 화면 처음", "f1": false, "f2": false, "b": true, "s": "문서 처음으로"}, {"k": ["Ctrl + End"], "t": "문서 끝으로", "c": "text", "d": "Word 등에서 문서 맨 끝으로 갑니다. 한글(HWP)에서는 ‘화면 끝’이고, 문서 끝은 Ctrl + PgDn입니다.", "a": ["Word", "메모장"], "lv": "work", "w": "HWP는 화면 끝", "f1": false, "f2": false, "b": true, "s": "문서 끝으로"}, {"k": ["Ctrl + Shift + Home / End"], "t": "문서 처음·끝까지 선택", "c": "text", "d": "커서 위치부터 문서 처음 또는 끝까지 크게 선택합니다. 프로그램마다 차이가 있습니다.", "a": ["공통"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "문서 처음·끝까지 선택"}, {"k": ["Ctrl + B"], "t": "굵게", "c": "doc", "d": "선택한 글자를 굵게 합니다.", "a": ["공통"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "굵게"}, {"k": ["Ctrl + I"], "t": "기울임", "c": "doc", "d": "선택한 글자를 기울입니다.", "a": ["공통"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "기울임"}, {"k": ["Ctrl + U"], "t": "밑줄", "c": "doc", "d": "선택한 글자에 밑줄을 긋습니다.", "a": ["공통"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "밑줄"}, {"k": ["Ctrl + K"], "t": "하이퍼링크", "c": "doc", "d": "선택한 글자에 링크를 겁니다.", "a": ["Word", "Google Docs"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "하이퍼링크"}, {"k": ["Ctrl + Enter"], "t": "페이지 나누기", "c": "doc", "d": "다음 내용을 새 페이지에서 시작합니다.", "a": ["Word"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "페이지 나누기"}, {"k": ["Ctrl + N"], "t": "새 문서", "c": "doc", "d": "새 문서나 새 창을 엽니다.", "a": ["공통"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "새 문서"}, {"k": ["Ctrl + O"], "t": "파일 열기", "c": "doc", "d": "파일 열기 창을 엽니다.", "a": ["공통"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "파일 열기"}, {"k": ["Ctrl + W"], "t": "문서·창 닫기", "c": "doc", "d": "현재 문서나 창을 닫습니다.", "a": ["공통"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "문서·창 닫기"}, {"k": ["Ctrl + Shift + S"], "t": "다른 이름으로 저장 등", "c": "doc", "d": "프로그램마다 동작이 다를 수 있습니다.", "a": ["공통"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "다른 이름으로 저장 등"}, {"k": ["Ctrl + Shift + V"], "t": "서식 없이 붙여넣기", "c": "doc", "d": "글꼴·색·크기 없이 글자만 붙여넣습니다. Google Docs와 웹서비스에서 특히 유용하며, 지원하지 않는 프로그램도 있습니다.", "a": ["Google Docs", "Chrome", "Edge"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "서식 없이 붙여넣기"}, {"k": ["Ctrl + L"], "t": "왼쪽 정렬", "c": "doc", "d": "Word 기준. 브라우저에서는 주소창 선택입니다.", "a": ["Word"], "lv": "work", "w": "", "f1": false, "f2": false, "b": false, "s": "왼쪽 정렬"}, {"k": ["Ctrl + E"], "t": "가운데 정렬", "c": "doc", "d": "Word 기준. Excel에서는 빠른 채우기입니다.", "a": ["Word"], "lv": "work", "w": "", "f1": false, "f2": false, "b": false, "s": "가운데 정렬"}, {"k": ["Ctrl + R"], "t": "오른쪽 정렬", "c": "doc", "d": "Word 기준. 브라우저에서는 새로고침입니다.", "a": ["Word"], "lv": "work", "w": "", "f1": false, "f2": false, "b": false, "s": "오른쪽 정렬"}, {"k": ["Ctrl + J"], "t": "양쪽 맞춤", "c": "doc", "d": "Word 기준. 브라우저에서는 다운로드 목록입니다.", "a": ["Word"], "lv": "work", "w": "", "f1": false, "f2": false, "b": false, "s": "양쪽 맞춤"}, {"k": ["Ctrl + T"], "t": "새 탭", "c": "browser", "d": "새 탭을 엽니다.", "a": ["Chrome", "Edge"], "lv": "core", "w": "", "f1": true, "f2": true, "b": true, "s": "새 탭"}, {"k": ["Ctrl + W"], "t": "탭 닫기", "c": "browser", "d": "현재 탭을 닫습니다.", "a": ["Chrome", "Edge"], "lv": "core", "w": "", "f1": true, "f2": true, "b": true, "s": "탭 닫기"}, {"k": ["Ctrl + Shift + T"], "t": "닫은 탭 복구", "c": "browser", "d": "실수로 닫은 탭을 다시 엽니다. 여러 번 누르면 최근에 닫은 순서대로 계속 복구됩니다.", "a": ["Chrome", "Edge"], "lv": "core", "w": "", "f1": true, "f2": true, "b": true, "s": "닫은 탭 복구"}, {"k": ["Ctrl + Tab"], "t": "다음 탭", "c": "browser", "d": "오른쪽 탭으로 이동합니다.", "a": ["Chrome", "Edge"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "다음 탭"}, {"k": ["Ctrl + Shift + Tab"], "t": "이전 탭", "c": "browser", "d": "왼쪽 탭으로 이동합니다.", "a": ["Chrome", "Edge"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "이전 탭"}, {"k": ["Ctrl + 1~8"], "t": "n번째 탭으로", "c": "browser", "d": "번호에 해당하는 탭으로 바로 이동합니다.", "a": ["Chrome", "Edge"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "n번째 탭으로"}, {"k": ["Ctrl + 9"], "t": "마지막 탭으로", "c": "browser", "d": "맨 오른쪽 탭으로 이동합니다.", "a": ["Chrome", "Edge"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "마지막 탭으로"}, {"k": ["Ctrl + L"], "t": "주소창 선택", "c": "browser", "d": "주소를 복사하거나 새 주소를 입력할 때 씁니다.", "a": ["Chrome", "Edge"], "lv": "core", "w": "", "f1": true, "f2": true, "b": true, "s": "주소창 선택"}, {"k": ["Ctrl + R"], "t": "새로고침", "c": "browser", "d": "페이지를 다시 불러옵니다.", "a": ["Chrome", "Edge"], "lv": "core", "w": "", "f1": true, "f2": true, "b": true, "s": "새로고침"}, {"k": ["Ctrl + N"], "t": "새 창", "c": "browser", "d": "새 브라우저 창을 엽니다.", "a": ["Chrome", "Edge"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "새 창"}, {"k": ["Ctrl + Shift + N"], "t": "시크릿·InPrivate 창", "c": "browser", "d": "창을 닫으면 방문 기록·쿠키를 이 PC에 남기지 않는 비공개 창입니다. 다운로드한 파일과 북마크는 남고, 학교 네트워크나 방문한 사이트에는 활동이 보일 수 있습니다. Chrome은 시크릿, Edge는 InPrivate.", "a": ["Chrome", "Edge"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "시크릿·InPrivate 창"}, {"k": ["Ctrl + D"], "t": "북마크", "c": "browser", "d": "현재 페이지를 즐겨찾기에 추가합니다.", "a": ["Chrome", "Edge"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "북마크"}, {"k": ["Ctrl + J"], "t": "다운로드 목록", "c": "browser", "d": "내려받은 파일 목록을 엽니다.", "a": ["Chrome", "Edge"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "다운로드 목록"}, {"k": ["Ctrl + +"], "t": "확대", "c": "browser", "d": "글자와 화면을 크게 봅니다.", "a": ["Chrome", "Edge"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "확대"}, {"k": ["Ctrl + -"], "t": "축소", "c": "browser", "d": "화면을 작게 봅니다.", "a": ["Chrome", "Edge"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "축소"}, {"k": ["Ctrl + 0"], "t": "100%로 복귀", "c": "browser", "d": "확대·축소를 원래대로 돌립니다.", "a": ["Chrome", "Edge"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "100%로 복귀"}, {"k": ["Ctrl + 클릭"], "t": "링크를 새 탭으로", "c": "browser", "d": "현재 페이지를 유지한 채 링크를 새 탭에서 엽니다.", "a": ["Chrome", "Edge"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "링크를 새 탭으로"}, {"k": ["Ctrl + Shift + Delete"], "t": "사용 기록 삭제 창", "c": "browser", "d": "방문 기록·쿠키·캐시 삭제 범위를 고르는 창을 엽니다. 파일을 지우는 키가 아닙니다.", "a": ["Chrome", "Edge"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "사용 기록 삭제 창"}, {"k": ["Alt + Tab"], "t": "프로그램 전환", "c": "win", "d": "실행 중인 프로그램 사이를 오갑니다.", "a": ["Windows"], "lv": "core", "w": "", "f1": true, "f2": true, "b": true, "s": "프로그램 전환"}, {"k": ["Win + V"], "t": "클립보드 기록", "c": "win", "d": "이전에 복사한 여러 항목 중 골라 붙여넣습니다. 처음 쓰는 PC에서는 기록 기능을 켜야 할 수 있습니다. 학생 정보·성적·상담 기록·비밀번호는 되도록 복사하지 말고, 복사했다면 Win + V에서 ‘모두 지우기’로 정리하세요.", "a": ["Windows"], "lv": "core", "w": "민감정보 복사 주의", "f1": true, "f2": true, "b": true, "s": "클립보드 기록"}, {"k": ["Win + ← / →"], "t": "창 좌우 배치", "c": "win", "d": "두 창을 화면 절반씩 나란히 놓습니다. 예: 왼쪽 PDF 공문, 오른쪽 한글 문서.", "a": ["Windows"], "lv": "core", "w": "", "f1": true, "f2": true, "b": true, "s": "창 좌우 배치"}, {"k": ["Win + L"], "t": "PC 잠금", "c": "win", "d": "자리를 비울 때 학생 명단·생활기록부가 화면에 노출되지 않게 합니다.", "a": ["Windows"], "lv": "core", "w": "", "f1": true, "f2": true, "b": true, "s": "PC 잠금"}, {"k": ["Win + E"], "t": "파일 탐색기", "c": "win", "d": "파일 탐색기를 바로 엽니다.", "a": ["Windows"], "lv": "core", "w": "", "f1": false, "f2": true, "b": true, "s": "파일 탐색기"}, {"k": ["Win + D"], "t": "바탕화면 보기", "c": "win", "d": "모든 창을 숨기고 다시 누르면 복원합니다.", "a": ["Windows"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "바탕화면 보기"}, {"k": ["Win + I"], "t": "Windows 설정", "c": "win", "d": "설정 창을 바로 엽니다.", "a": ["Windows"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "Windows 설정"}, {"k": ["Win + ↑"], "t": "창 최대화", "c": "win", "d": "현재 창을 화면 가득 채웁니다.", "a": ["Windows"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "창 최대화"}, {"k": ["Win + ↓"], "t": "창 복원·최소화", "c": "win", "d": "창 상태에 따라 복원 → 최소화 순으로 작동합니다.", "a": ["Windows"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "창 복원·최소화"}, {"k": ["Win + Z"], "t": "Snap 레이아웃", "c": "win", "d": "2분할·3분할·4분할 화면 배치를 고릅니다. Windows 11 기능입니다.", "a": ["Windows 11"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "Snap 레이아웃"}, {"k": ["Win + ."], "t": "이모지·기호", "c": "win", "d": "✅ ⭐ 📌 같은 기호를 입력합니다.", "a": ["Windows"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "이모지·기호"}, {"k": ["Win + Tab"], "t": "작업 보기", "c": "win", "d": "열린 창과 가상 데스크톱을 한눈에 봅니다.", "a": ["Windows"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "작업 보기"}, {"k": ["Alt + F4"], "t": "프로그램 닫기", "c": "win", "d": "현재 프로그램을 종료합니다.", "a": ["Windows"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "프로그램 닫기"}, {"k": ["Ctrl + Shift + Esc"], "t": "작업 관리자", "c": "win", "d": "프로그램이 멈췄을 때 바로 작업 관리자를 엽니다.", "a": ["Windows"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "작업 관리자"}, {"k": ["Ctrl + Alt + Delete"], "t": "보안 화면", "c": "win", "d": "잠금·로그아웃·암호 변경 메뉴를 엽니다.", "a": ["Windows"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "보안 화면"}, {"k": ["Ctrl + Esc"], "t": "시작 메뉴", "c": "win", "d": "Win 키와 같은 역할입니다.", "a": ["Windows"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "시작 메뉴"}, {"k": ["Win + Shift + S"], "t": "영역 캡처", "c": "capture", "d": "원하는 부분만 캡처해 클립보드에 담습니다. 이어서 문서·메신저에서 Ctrl + V로 바로 붙여넣으면 됩니다.", "a": ["Windows"], "lv": "core", "w": "", "f1": true, "f2": true, "b": true, "s": "영역 캡처"}, {"k": ["PrtSc"], "t": "전체 화면 복사 또는 캡처 도구", "c": "capture", "d": "Windows 버전·설정에 따라 전체 화면 복사 또는 캡처 도구 실행으로 동작이 다릅니다.", "a": ["Windows"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "전체 화면 복사 또는 캡처 도구"}, {"k": ["Alt + PrtSc"], "t": "현재 창 캡처", "c": "capture", "d": "활성 창만 클립보드에 복사합니다.", "a": ["Windows"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "현재 창 캡처"}, {"k": ["Win + PrtSc"], "t": "전체 화면 파일 저장", "c": "capture", "d": "전체 화면을 사진 > 스크린샷 폴더에 파일로 저장합니다.", "a": ["Windows"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "전체 화면 파일 저장"}, {"k": ["F2"], "t": "이름 바꾸기", "c": "file", "d": "파일명은 ‘날짜_대상_내용_버전’ 형태가 찾기 쉽습니다. 예: 2026-09-26_2학년_진로활동자료_v1.pdf", "a": ["Windows 탐색기"], "lv": "core", "w": "", "f1": true, "f2": true, "b": true, "s": "이름 바꾸기"}, {"k": ["Ctrl + Shift + N"], "t": "새 폴더", "c": "file", "d": "탐색기에서 새 폴더를 만듭니다. 브라우저에서는 시크릿 창이 열립니다.", "a": ["Windows 탐색기"], "lv": "core", "w": "", "f1": false, "f2": true, "b": true, "s": "새 폴더"}, {"k": ["Ctrl + N"], "t": "새 탐색기 창", "c": "file", "d": "같은 위치의 탐색기 창을 하나 더 엽니다.", "a": ["Windows 탐색기"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "새 탐색기 창"}, {"k": ["Ctrl + T"], "t": "새 탐색기 탭", "c": "file", "d": "Windows 11 탐색기에서 새 탭을 엽니다.", "a": ["Windows 11"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "새 탐색기 탭"}, {"k": ["Ctrl + W"], "t": "탭·창 닫기", "c": "file", "d": "현재 탐색기 탭이나 창을 닫습니다.", "a": ["Windows 탐색기"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "탭·창 닫기"}, {"k": ["Ctrl + F"], "t": "파일 검색", "c": "file", "d": "탐색기 검색창으로 이동합니다.", "a": ["Windows 탐색기"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "파일 검색"}, {"k": ["F5"], "t": "새로고침", "c": "file", "d": "폴더 내용을 다시 불러옵니다.", "a": ["Windows 탐색기"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "새로고침"}, {"k": ["Alt + ←"], "t": "이전 위치", "c": "file", "d": "직전에 보던 폴더로 돌아갑니다.", "a": ["Windows 탐색기"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "이전 위치"}, {"k": ["Alt + →"], "t": "다음 위치", "c": "file", "d": "뒤로 갔던 폴더로 다시 갑니다.", "a": ["Windows 탐색기"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "다음 위치"}, {"k": ["Alt + ↑"], "t": "상위 폴더", "c": "file", "d": "한 단계 위 폴더로 올라갑니다.", "a": ["Windows 탐색기"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "상위 폴더"}, {"k": ["Alt + Enter"], "t": "속성", "c": "file", "d": "파일·폴더 속성 창을 엽니다.", "a": ["Windows 탐색기"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "속성"}, {"k": ["Ctrl + Z"], "t": "방금 한 작업 취소", "c": "file", "d": "실수로 한 삭제·이동·이름 바꾸기를 되돌립니다.", "a": ["Windows 탐색기"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "방금 한 작업 취소"}, {"k": ["Delete"], "t": "휴지통으로", "c": "file", "d": "휴지통을 거쳐 삭제하므로 복구할 수 있습니다.", "a": ["Windows 탐색기"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "휴지통으로"}, {"k": ["Shift + Delete"], "t": "영구 삭제", "c": "file", "d": "휴지통을 거치지 않고 바로 삭제합니다. 초보자는 쓸 필요가 없으며, 중요 파일은 일반 Delete를 쓰세요.", "a": ["Windows 탐색기"], "lv": "work", "w": "복구 불가", "f1": false, "f2": false, "b": true, "s": "영구 삭제"}, {"k": ["Ctrl + 클릭"], "t": "여러 개 골라 선택", "c": "file", "d": "떨어져 있는 파일을 하나씩 추가로 선택합니다.", "a": ["Windows 탐색기"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "여러 개 골라 선택"}, {"k": ["Shift + 클릭"], "t": "범위 선택", "c": "file", "d": "처음과 끝을 눌러 연속된 파일을 선택합니다.", "a": ["Windows 탐색기"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "범위 선택"}, {"k": ["Ctrl + 방향키"], "t": "데이터 끝으로 이동", "c": "excel", "d": "긴 학생 명단·성적표에서 데이터 영역 끝으로 바로 이동합니다.", "a": ["Excel"], "lv": "core", "w": "", "f1": true, "f2": true, "b": true, "s": "끝으로 이동"}, {"k": ["Ctrl + Shift + 방향키"], "t": "데이터 끝까지 선택", "c": "excel", "d": "현재 셀부터 데이터 끝까지 한 번에 선택합니다.", "a": ["Excel"], "lv": "core", "w": "", "f1": true, "f2": true, "b": true, "s": "끝까지 선택"}, {"k": ["Ctrl + 1"], "t": "셀 서식", "c": "excel", "d": "표시 형식·맞춤·테두리 설정 창을 엽니다.", "a": ["Excel"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "셀 서식"}, {"k": ["Ctrl + ;"], "t": "오늘 날짜", "c": "excel", "d": "현재 날짜를 입력합니다.", "a": ["Excel"], "lv": "work", "w": "", "f1": false, "f2": true, "b": true, "s": "오늘 날짜"}, {"k": ["Ctrl + Shift + ;"], "t": "현재 시간", "c": "excel", "d": "현재 시간을 입력합니다.", "a": ["Excel"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "현재 시간"}, {"k": ["Ctrl + Home"], "t": "A1 셀로", "c": "excel", "d": "시트 맨 처음으로 갑니다.", "a": ["Excel"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "A1 셀로"}, {"k": ["Ctrl + End"], "t": "마지막 셀로", "c": "excel", "d": "사용 중인 영역의 마지막 셀로 갑니다.", "a": ["Excel"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "마지막 셀로"}, {"k": ["Ctrl + PgUp / PgDn"], "t": "시트 이동", "c": "excel", "d": "이전·다음 시트로 이동합니다. 한글(HWP)에서는 문서 처음·끝입니다.", "a": ["Excel"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "시트 이동"}, {"k": ["Ctrl + Shift + L"], "t": "필터 켜기·끄기", "c": "excel", "d": "머리글에 필터 버튼을 붙이거나 뗍니다.", "a": ["Excel"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "필터 켜기·끄기"}, {"k": ["Ctrl + T"], "t": "표로 만들기", "c": "excel", "d": "데이터 범위를 서식 있는 표로 바꿉니다.", "a": ["Excel"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "표로 만들기"}, {"k": ["Ctrl + D"], "t": "아래로 채우기", "c": "excel", "d": "위 셀 내용을 아래 선택 영역에 복사합니다.", "a": ["Excel"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "아래로 채우기"}, {"k": ["Ctrl + E"], "t": "빠른 채우기", "c": "excel", "d": "입력 패턴을 알아서 나머지 칸에 채웁니다. 예: 이름만 뽑기.", "a": ["Excel"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "빠른 채우기"}, {"k": ["Ctrl + Enter"], "t": "같은 값 한꺼번에", "c": "excel", "d": "선택한 여러 셀에 같은 내용을 입력합니다.", "a": ["Excel"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "같은 값 한꺼번에"}, {"k": ["Alt + ="], "t": "자동 합계", "c": "excel", "d": "SUM 함수를 자동으로 넣습니다.", "a": ["Excel"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "자동 합계"}, {"k": ["F4"], "t": "참조 고정 전환", "c": "excel", "d": "수식 입력 중 $ 참조 형식을 바꿉니다. 상황에 따라 직전 작업 반복으로도 쓰입니다.", "a": ["Excel"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "참조 고정 전환"}, {"k": ["Ctrl + Y"], "t": "한 줄 지우기", "c": "hwp", "d": "다른 프로그램처럼 ‘다시 실행’을 기대하고 누르면 한 줄이 지워집니다. 지웠다면 바로 Ctrl + Z.", "a": ["한글"], "lv": "core", "w": "다시 실행이 아님", "f1": true, "f2": true, "b": true, "s": "한 줄 지우기"}, {"k": ["Ctrl + Shift + Z"], "t": "다시 실행", "c": "hwp", "d": "한글에서 실행 취소한 작업을 다시 적용합니다.", "a": ["한글"], "lv": "core", "w": "", "f1": true, "f2": true, "b": true, "s": "다시 실행"}, {"k": ["Ctrl + PgUp"], "t": "문서 처음으로", "c": "hwp", "d": "한글에서 문서 맨 처음으로 갑니다.", "a": ["한글"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "문서 처음으로"}, {"k": ["Ctrl + PgDn"], "t": "문서 끝으로", "c": "hwp", "d": "한글에서 문서 맨 끝으로 갑니다.", "a": ["한글"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "문서 끝으로"}, {"k": ["Ctrl + Home"], "t": "화면 처음으로", "c": "hwp", "d": "한글에서는 현재 화면의 처음입니다.", "a": ["한글"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "화면 처음으로"}, {"k": ["Ctrl + End"], "t": "화면 끝으로", "c": "hwp", "d": "한글에서는 현재 화면의 끝입니다.", "a": ["한글"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "화면 끝으로"}, {"k": ["Ctrl + ↑ / ↓"], "t": "한 문단 위·아래", "c": "hwp", "d": "문단 단위로 커서를 옮깁니다.", "a": ["한글"], "lv": "work", "w": "", "f1": false, "f2": false, "b": true, "s": "한 문단 위·아래"}, {"k": ["Win + Ctrl + D"], "t": "새 가상 데스크톱", "c": "vdesk", "d": "예: 데스크톱 1은 학교 업무, 2는 AI 비교, 3은 웹 제작.", "a": ["Windows"], "lv": "adv", "w": "", "f1": false, "f2": false, "b": false, "s": "새 가상 데스크톱"}, {"k": ["Win + Ctrl + ←"], "t": "이전 데스크톱", "c": "vdesk", "d": "왼쪽 가상 데스크톱으로 이동합니다.", "a": ["Windows"], "lv": "adv", "w": "", "f1": false, "f2": false, "b": false, "s": "이전 데스크톱"}, {"k": ["Win + Ctrl + →"], "t": "다음 데스크톱", "c": "vdesk", "d": "오른쪽 가상 데스크톱으로 이동합니다.", "a": ["Windows"], "lv": "adv", "w": "", "f1": false, "f2": false, "b": false, "s": "다음 데스크톱"}, {"k": ["Win + Ctrl + F4"], "t": "데스크톱 닫기", "c": "vdesk", "d": "현재 가상 데스크톱을 닫습니다. 열린 창은 옆 데스크톱으로 옮겨집니다.", "a": ["Windows"], "lv": "adv", "w": "", "f1": false, "f2": false, "b": false, "s": "데스크톱 닫기"}, {"k": ["F12"], "t": "개발자 도구", "c": "web", "d": "HTML·CSS·JavaScript 오류와 콘솔 메시지, 모바일 화면을 확인합니다.", "a": ["Chrome", "Edge"], "lv": "adv", "w": "", "f1": false, "f2": false, "b": false, "s": "개발자 도구"}, {"k": ["Ctrl + Shift + R", "Ctrl + F5"], "t": "강력 새로고침", "c": "web", "d": "캐시 영향을 줄여 페이지를 다시 불러옵니다. 그래도 옛 화면이면 GitHub Pages 배포 완료 여부(보통 1~2분), 파일 경로·파일명, 서비스워커·CDN 캐시를 확인하세요. 노트북은 Fn + F5가 필요할 수 있습니다.", "a": ["Chrome", "Edge"], "lv": "adv", "w": "", "f1": false, "f2": false, "b": false, "s": "강력 새로고침"}];
+const DIFF = [["Ctrl + Y", "Word 등: 다시 실행", "한글: ⚠ 한 줄 지우기"], ["Ctrl + L", "Word: 왼쪽 정렬", "브라우저: 주소창"], ["Ctrl + R", "Word: 오른쪽 정렬", "브라우저: 새로고침"], ["Ctrl + J", "Word: 양쪽 맞춤", "브라우저: 다운로드"], ["Ctrl + E", "Word: 가운데 정렬", "Excel: 빠른 채우기"], ["Ctrl + Shift + N", "탐색기: 새 폴더", "Chrome: 시크릿 / Edge: InPrivate"], ["Ctrl + PgUp / PgDn", "Excel: 시트 이동", "한글: 문서 처음·끝"], ["Ctrl + Home / End", "Word: 문서 처음·끝", "한글: 화면 처음·끝"]];
+const CATMAP = Object.fromEntries(CATS.map(c => [c[0], c]));
+
+const SYN = [
+  [/캡쳐|스샷|스크린샷|화면저장/g, '캡처'], [/엑셀/g, 'excel'], [/한컴|한글|hwp/g, 'hwp 한글'],
+  [/크롬/g, 'chrome'], [/엣지/g, 'edge'], [/윈도우|윈도/g, 'windows'], [/되돌리기|취소/g, '실행 취소'],
+  [/복붙/g, '복사 붙여넣기'], [/폴더만들기/g, '새 폴더'], [/파일명|이름변경/g, '이름 바꾸기'],
+  [/시크릿|인프라이빗|inprivate/g, '시크릿'], [/환경설정/g, '설정'], [/화면분할|창분할|분할/g, '배치'],
+  [/닫은탭|탭복구/g, '닫은 탭'], [/잠금|잠그기/g, '잠금'], [/컨트롤/g, 'ctrl'], [/쉬프트|시프트/g, 'shift'], [/알트/g, 'alt'], [/윈키/g, 'win'],
+];
+const norm = s => s.toLowerCase().replace(/\s+|\+/g, '');
+function expand(q) { let s = q.toLowerCase(); SYN.forEach(([re, to]) => { s = s.replace(re, ' ' + to + ' '); }); return s; }
+
+ITEMS.forEach((it, i) => {
+  it.id = i;
+  const cat = CATMAP[it.c];
+  it.hayKeys = it.k.map(norm).join('|');
+  it.hay = norm([it.t, it.d, it.a.join(' '), cat[1], it.w, it.lv === 'core' ? '핵심' : ''].join(' '));
+});
+
+let state = { q: '', mode: 'core', cat: 'all' };
+
+const $ = s => document.querySelector(s);
+const esc = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+function caps(k) { return k.split(' + ').map(p => `<kbd>${esc(p)}</kbd>`).join('<span class="plus">+</span>'); }
+function keysHtml(k) { return k.map(caps).join('<span class="or">또는</span>'); }
+
+function buildChips() {
+  const all = `<button class="chip" type="button" data-cat="all" aria-pressed="true">전체 분류</button>`;
+  const rest = CATS.map(([id, name, color]) => `<button class="chip" type="button" data-cat="${id}" aria-pressed="false"><i style="background:${color}"></i>${esc(name)}</button>`).join('');
+  const diff = `<button class="chip" type="button" data-cat="diff" aria-pressed="false"><i style="background:var(--ink)"></i>프로그램별 차이</button>`;
+  $('#chips').innerHTML = all + rest + diff;
+}
+
+function matches(it, terms) {
+  return terms.every(t => it.hayKeys.includes(t) || it.hay.includes(t));
+}
+
+function highlight(text, terms) {
+  let out = esc(text);
+  terms.filter(t => t.length > 1 && !/^[a-z0-9]+$/.test(t)).forEach(t => {
+    const re = new RegExp(t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
+    out = out.replace(re, m => `<mark>${m}</mark>`);
+  });
+  return out;
+}
+
+function render() {
+  const raw = state.q.trim();
+  const terms = raw ? expand(raw).split(/\s+/).filter(Boolean).map(norm).filter(Boolean) : [];
+  // 키 조합을 통째로 입력한 경우(Ctrl+Y 등)는 하나의 검색어로
+  const whole = norm(raw);
+  const keyExact = raw && /[a-z]/i.test(raw) && ITEMS.some(it => it.k.some(k => norm(k) === whole));
+
+  let list = ITEMS.filter(it => {
+    if (state.cat !== 'all' && state.cat !== 'diff' && it.c !== state.cat) return false;
+    if (state.mode === 'warn' && !it.w) return false;
+    if (state.mode === 'core' && !raw && state.cat === 'all' && it.lv !== 'core') return false;
+    if (!raw) return true;
+    if (keyExact) return it.k.some(k => norm(k) === whole);
+    return matches(it, terms);
+  });
+
+  const out = [];
+  const showDiff = state.cat === 'diff' || (state.mode === 'all' && state.cat === 'all' && !raw) ||
+    (raw && DIFF.some(d => norm(d[0]) === whole));
+  const diffRows = DIFF.filter(d => state.cat === 'diff' || !raw || norm(d[0]) === whole);
+
+  if (state.cat !== 'diff') {
+    CATS.forEach(([id, name, color]) => {
+      const g = list.filter(it => it.c === id);
+      if (!g.length) return;
+      out.push(`<section class="group"><h2><span class="sw" style="background:${color}"></span>${esc(name)}</h2><div class="list">` +
+        g.map(it => `<article class="item${it.w ? ' warn' : ''}">
+          <div class="keys">${keysHtml(it.k)}</div>
+          <div class="what"><b>${highlight(it.t, terms)}</b>${it.d ? `<p>${highlight(it.d, terms)}</p>` : ''}
+            <div class="tags">${it.w ? `<span class="tag w">⚠ ${esc(it.w)}</span>` : ''}${it.lv === 'core' ? '<span class="tag core">핵심</span>' : ''}${it.a.map(a => `<span class="tag">${esc(a)}</span>`).join('')}</div>
+          </div></article>`).join('') + `</div></section>`);
+    });
+  }
+  if (showDiff && diffRows.length) {
+    out.push(`<section class="group"><h2><span class="sw" style="background:var(--ink)"></span>같은 키, 프로그램별 다른 기능</h2><div class="list tablewrap"><table class="diff">` +
+      diffRows.map(d => `<tr><td><div class="keys">${caps(d[0])}</div></td><td>${esc(d[1])}<br>${esc(d[2])}</td></tr>`).join('') + `</table></div></section>`);
+  }
+
+  const n = state.cat === 'diff' ? diffRows.length : list.length;
+  if (!out.length) {
+    out.push(`<div class="empty"><p><b>‘${esc(raw)}’</b>에 맞는 단축키가 없습니다.</p><p>다른 말로 찾아보세요. 예: 캡처, 새 탭, 폴더, 저장, 엑셀, 한글</p></div>`);
+  }
+  $('#out').innerHTML = out.join('');
+  $('#hwpbar').hidden = !(state.mode === 'core' && !raw && state.cat === 'all');
+  syncURL();
+  let label = `${n}개 표시`;
+  if (state.mode === 'core' && !raw && state.cat === 'all') label += ' · 전체는 ‘전체’ 버튼';
+  if (raw && state.mode === 'core') label += ' · 검색은 전체 목록에서 찾습니다';
+  $('#count').textContent = label;
+}
+
+// 이벤트
+let t;
+$('#q').addEventListener('input', e => { clearTimeout(t); t = setTimeout(() => { state.q = e.target.value; render(); }, 80); });
+document.querySelectorAll('.seg button').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('.seg button').forEach(x => x.setAttribute('aria-pressed', x === b));
+  state.mode = b.dataset.mode; render();
+}));
+$('#chips').addEventListener('click', e => {
+  const b = e.target.closest('.chip'); if (!b) return;
+  document.querySelectorAll('.chip').forEach(x => x.setAttribute('aria-pressed', x === b));
+  state.cat = b.dataset.cat; render();
+});
+$('#printBtn').addEventListener('click', () => window.print());
+$('#linkBtn').addEventListener('click', async () => {
+  try { await navigator.clipboard.writeText(location.href); $('#hint').textContent = '현재 검색 결과 주소를 복사했습니다. 동료에게 그대로 보내면 같은 화면이 열립니다.'; }
+  catch (e) { $('#hint').textContent = '주소창의 주소를 직접 복사하세요. 검색 조건이 주소에 담겨 있습니다.'; }
+});
+
+// 눌러서 찾기: 실제 키 조합을 눌러 검색
+const KEYNAME = { ArrowLeft: '←', ArrowRight: '→', ArrowUp: '↑', ArrowDown: '↓', ' ': 'Space', Escape: 'Esc',
+  PageUp: 'PgUp', PageDown: 'PgDn', PrintScreen: 'PrtSc', Backspace: 'Backspace', Delete: 'Delete', Enter: 'Enter', Tab: 'Tab', Home: 'Home', End: 'End' };
+let capturing = false;
+function setCapture(on) {
+  capturing = on;
+  $('#capBtn').setAttribute('aria-pressed', on);
+  $('#hint').textContent = on ? '찾을 단축키를 눌러 보세요. ※ Ctrl+W·Ctrl+T·Ctrl+N 같은 브라우저 예약 키와 Win 조합은 실제로 탭이 닫히거나 창이 열리므로 검색창에 글자로 입력하세요. (Esc로 취소)' : '';
+}
+$('#capBtn').addEventListener('click', () => setCapture(!capturing));
+document.addEventListener('keydown', e => {
+  if (capturing) {
+    if (['Control', 'Shift', 'Alt', 'Meta'].includes(e.key)) return;
+    e.preventDefault();
+    if (e.key === 'Escape' && !e.ctrlKey && !e.altKey && !e.shiftKey) { setCapture(false); return; }
+    const parts = [];
+    if (e.metaKey) parts.push('Win');
+    if (e.ctrlKey) parts.push('Ctrl');
+    if (e.altKey) parts.push('Alt');
+    if (e.shiftKey) parts.push('Shift');
+    let k = KEYNAME[e.key] || (/^F\d{1,2}$/.test(e.key) ? e.key : '');
+    if (!k) {
+      if (e.code.startsWith('Key')) k = e.code.slice(3);
+      else if (e.code.startsWith('Digit')) k = e.code.slice(5);
+      else if (e.code === 'Semicolon') k = ';';
+      else if (e.code === 'Equal' || e.code === 'NumpadAdd') { k = e.shiftKey || e.code === 'NumpadAdd' ? '+' : '='; if (k === '+' && parts[parts.length - 1] === 'Shift' && parts.includes('Ctrl')) parts.pop(); }
+      else if (e.code === 'NumpadSubtract') k = '-';
+      else if (e.code === 'Numpad0') k = '0';
+      else if (e.code === 'Minus') k = '-';
+      else if (e.code === 'Period') k = '.';
+      else k = e.key.length === 1 ? e.key.toUpperCase() : e.key;
+    }
+    const combo = parts.concat(k).join(' + ');
+    $('#q').value = combo; state.q = combo; setCapture(false); render();
+    $('#hint').textContent = `‘${combo}’ 검색 결과`;
+    return;
+  }
+  if (e.key === '/' && document.activeElement !== $('#q')) { e.preventDefault(); $('#q').focus(); }
+  if (e.key === 'Escape' && document.activeElement === $('#q')) { $('#q').value = ''; state.q = ''; render(); }
+});
+
+// 화면 밝기 전환
+$('#themeBtn').addEventListener('click', () => {
+  const r = document.documentElement;
+  const dark = r.dataset.theme ? r.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+  r.dataset.theme = dark ? 'light' : 'dark';
+  try { localStorage.setItem('sk-theme', r.dataset.theme); } catch (e) {}
+});
+try { const s = localStorage.getItem('sk-theme'); if (s) document.documentElement.dataset.theme = s; } catch (e) {}
+
+function syncURL() {
+  const u = new URLSearchParams();
+  if (state.q) u.set('q', state.q);
+  if (state.mode !== 'core') u.set('mode', state.mode);
+  if (state.cat !== 'all') u.set('cat', state.cat);
+  const s = u.toString();
+  try { history.replaceState(null, '', s ? '?' + s : location.pathname); } catch (e) {}
+}
+function loadURL() {
+  const u = new URLSearchParams(location.search);
+  state.q = u.get('q') || '';
+  state.mode = ['core', 'all', 'warn'].includes(u.get('mode')) ? u.get('mode') : 'core';
+  state.cat = u.get('cat') || 'all';
+  if (state.cat !== 'all' && state.cat !== 'diff' && !CATMAP[state.cat]) state.cat = 'all';
+  $('#q').value = state.q;
+  document.querySelectorAll('.seg button').forEach(x => x.setAttribute('aria-pressed', x.dataset.mode === state.mode));
+  document.querySelectorAll('.chip').forEach(x => x.setAttribute('aria-pressed', x.dataset.cat === state.cat));
+}
+buildChips();
+loadURL();
+render();
+</script>
+</body>
+</html>
